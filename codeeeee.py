@@ -117,6 +117,14 @@ class Ui_HOUSELOAN(object):
         self.error2_label.setFont(font)
         self.error2_label.setStyleSheet("color: rgb(203,119,59)")
         self.error2_label.setObjectName("error2_label")
+        self.min_price_label = QtWidgets.QLabel(self.page_2)
+        self.min_price_label.setGeometry(QtCore.QRect(400, 100, 141, 15))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(8)
+        self.min_price_label.setFont(font)
+        self.min_price_label.setStyleSheet("color: rgb(130,105,88)")
+        self.min_price_label.setObjectName("min_price_label")
         self.result_btn = QtWidgets.QPushButton(self.page_2)
         self.result_btn.setGeometry(QtCore.QRect(230, 360, 101, 31))
         font = QtGui.QFont()
@@ -467,15 +475,6 @@ class Ui_HOUSELOAN(object):
         self.label_29.setFont(font)
         self.label_29.setStyleSheet("color:rgb(203,119,59)")
         self.label_29.setObjectName("label_29")
-        self.home_btn = QtWidgets.QPushButton(self.page_4)
-        self.home_btn.setGeometry(QtCore.QRect(170, 360, 111, 31))
-        font = QtGui.QFont()
-        font.setFamily("Comic Sans MS")
-        font.setPointSize(10)
-        self.home_btn.setFont(font)
-        self.home_btn.setStyleSheet("color:rgb(130,105,88);\n"
-"background-color: rgb(229,190,46)")
-        self.home_btn.setObjectName("home_btn")
         self.exit_btn = QtWidgets.QPushButton(self.page_4)
         self.exit_btn.setGeometry(QtCore.QRect(310, 360, 111, 31))
         font = QtGui.QFont()
@@ -597,10 +596,6 @@ class Ui_HOUSELOAN(object):
         
 ## MY CODE ##
 
-    #Check Error: Invalid Input
-        self.cus_name.textChanged.connect(self.error1)
-        self.houseprice_txt.textChanged.connect(self.error2)
-
 
     #Group Box Radio Button Code
         self.workBox.setFlat(True)
@@ -621,13 +616,16 @@ class Ui_HOUSELOAN(object):
 
         self.insu_yes_rad.clicked.connect(self.insu)
         self.insu_no_rad.clicked.connect(self.insu)
+
+    #Link TextEdit to Check Error: Invalid Input
+        self.cus_name.textChanged.connect(self.error1)
+        self.houseprice_txt.textChanged.connect(self.error2)
         
     #Clicked Button Code 
         self.next_btn.clicked.connect(self.gopage2)
         self.calculate_btn.clicked.connect(self.calculate)
         self.result_btn.clicked.connect(self.gopage3)
         self.golastpg_btn.clicked.connect(self.golastpage)
-        self.home_btn.clicked.connect(self.gohome)
         self.exit_btn.clicked.connect(self.exitapp)
 
     
@@ -640,9 +638,6 @@ class Ui_HOUSELOAN(object):
     def golastpage(self):
         self.stackedWidget.setCurrentIndex(3)
 
-    def gohome(self):
-        self.stackedWidget.setCurrentIndex(0)
-
     def exitapp(self):
         os.system(cmd)
         self.QtCore.QCoreApplication.instance().quit()
@@ -654,7 +649,7 @@ class Ui_HOUSELOAN(object):
         if name == "":
             self.error1_label.setText("\t"+"Invalid Input")
         try:
-            name = eval(name)
+            name = int(name)
             self.error1_label.setText("\t"+"Invalid Input")
         except:
             self.error1_label.setText("\t"+"Valid Input")
@@ -664,6 +659,10 @@ class Ui_HOUSELOAN(object):
         try:
             houseprice = int(houseprice)
             self.error2_label.setText("Valid Input")
+            if houseprice < 500000:
+                self.error2_label.setText("Invalid Input")
+            if houseprice > 1000000000:
+                self.error2_label.setText("Invalid Input")
         except:
             self.error2_label.setText("Invalid Input")
 
@@ -1017,6 +1016,7 @@ class Ui_HOUSELOAN(object):
             self.lowest_bank_3.setText("KASIKORN BANK")
         self.lowest_pay_3.setText(str(low3))
 
+####
 
         
     def retranslateUi(self, HOUSELOAN):
@@ -1057,7 +1057,6 @@ class Ui_HOUSELOAN(object):
         self.label_26.setText(_translate("HOUSELOAN", "THB per month"))
         self.label_28.setText(_translate("HOUSELOAN", "Lowest Pay"))
         self.label_29.setText(_translate("HOUSELOAN", "(average pay per month)"))
-        self.home_btn.setText(_translate("HOUSELOAN", "Back to Home"))
         self.exit_btn.setText(_translate("HOUSELOAN", "EXIT"))
         self.label_47.setText(_translate("HOUSELOAN", "THB per month"))
         self.label_48.setText(_translate("HOUSELOAN", "THB per month"))
