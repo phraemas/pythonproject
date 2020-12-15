@@ -36,7 +36,7 @@ class Ui_HOUSELOAN(object):
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
         self.cus_name = QtWidgets.QTextEdit(self.page)
-        self.cus_name.setGeometry(QtCore.QRect(210, 290, 231, 41))
+        self.cus_name.setGeometry(QtCore.QRect(210, 310, 231, 41))
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPointSize(14)
@@ -59,6 +59,14 @@ class Ui_HOUSELOAN(object):
         font.setPointSize(12)
         self.enter_name_label.setFont(font)
         self.enter_name_label.setObjectName("enter_name_label")
+        self.error1_label = QtWidgets.QLabel(self.page)
+        self.error1_label.setGeometry(QtCore.QRect(240, 270, 171, 21))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(8)
+        self.error1_label.setFont(font)
+        self.error1_label.setStyleSheet("background-color:rgb(235,240,171);color:rgb(130,105,88)")
+        self.error1_label.setObjectName("error1_label")
         self.titel_label = QtWidgets.QLabel(self.page)
         self.titel_label.setGeometry(QtCore.QRect(10, 20, 221, 51))
         font = QtGui.QFont()
@@ -78,6 +86,7 @@ class Ui_HOUSELOAN(object):
         self.cus_name.raise_()
         self.next_btn.raise_()
         self.enter_name_label.raise_()
+        self.error1_label.raise_()
         self.titel_label.raise_()
         self.stackedWidget.addWidget(self.page)
 
@@ -100,6 +109,14 @@ class Ui_HOUSELOAN(object):
         self.houseprice_label.setFont(font)
         self.houseprice_label.setStyleSheet("color: rgb(130,105,88)")
         self.houseprice_label.setObjectName("houseprice_label")
+        self.error2_label = QtWidgets.QLabel(self.page_2)
+        self.error2_label.setGeometry(QtCore.QRect(340, 160, 141, 15))
+        font = QtGui.QFont()
+        font.setFamily("Comic Sans MS")
+        font.setPointSize(8)
+        self.error2_label.setFont(font)
+        self.error2_label.setStyleSheet("color: rgb(203,119,59)")
+        self.error2_label.setObjectName("error2_label")
         self.result_btn = QtWidgets.QPushButton(self.page_2)
         self.result_btn.setGeometry(QtCore.QRect(230, 360, 101, 31))
         font = QtGui.QFont()
@@ -210,6 +227,7 @@ class Ui_HOUSELOAN(object):
         self.workBox.raise_()
         self.houseprice_txt.raise_()
         self.houseprice_label.raise_()
+        self.error2_label.raise_()
         self.result_btn.raise_()
         self.info_label.raise_()
         self.calculate_btn.raise_()
@@ -579,6 +597,10 @@ class Ui_HOUSELOAN(object):
         
 ## MY CODE ##
 
+    #Check Error: Invalid Input
+        self.cus_name.textChanged.connect(self.error1)
+        self.houseprice_txt.textChanged.connect(self.error2)
+
 
     #Group Box Radio Button Code
         self.workBox.setFlat(True)
@@ -609,7 +631,7 @@ class Ui_HOUSELOAN(object):
         self.exit_btn.clicked.connect(self.exitapp)
 
     
-    def gopage2(self): 
+    def gopage2(self):
         self.stackedWidget.setCurrentIndex(1)
 
     def gopage3(self):
@@ -624,6 +646,26 @@ class Ui_HOUSELOAN(object):
     def exitapp(self):
         os.system(cmd)
         self.QtCore.QCoreApplication.instance().quit()
+
+
+    #Error: Invalid Input Command
+    def error1(self):
+        name = self.cus_name.toPlainText()
+        if name == "":
+            self.error1_label.setText("\t"+"Invalid Input")
+        try:
+            name = eval(name)
+            self.error1_label.setText("\t"+"Invalid Input")
+        except:
+            self.error1_label.setText("\t"+"Valid Input")
+            
+    def error2(self):
+        houseprice = self.houseprice_txt.toPlainText()
+        try:
+            houseprice = int(houseprice)
+            self.error2_label.setText("Valid Input")
+        except:
+            self.error2_label.setText("Invalid Input")
 
 
     def work(self):
